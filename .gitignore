@@ -1,9 +1,74 @@
-﻿*.tmp
-~$*
-*.bak
+﻿# Fichiers système
 .DS_Store
-*-confidentiel.*
-venv/
-__pycache__/
-*.pyc
+Thumbs.db
+desktop.ini
+
+# Fichiers temporaires
+*.tmp
+*.bak
+*.swp
+*~
+~$*
+
+# Fichiers Excel temporaires
+~$*.xlsx
+~$*.xls
+
+# Logs
 *.log
+logs/
+
+# Environnements virtuels Python
+venv/
+env/
+ENV/
+.venv
+
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+
+# IDEs
+.vscode/
+.idea/
+*.sublime-project
+*.sublime-workspace
+
+# Node modules (si utilisation de Node)
+node_modules/
+package-lock.json
+
+# Données sensibles (NE JAMAIS COMMITER)
+*.key
+*.pem
+*.p12
+secrets/
+credentials/
+.env
+
+# Fichiers de travail personnels
+*-personnel.*
+brouillon/
+test-local/
+
+# Exports et rapports contenant des données réelles
+*-export-*.json
+*-rapport-*.pdf
+rapports-reel/
+
+# Sauvegardes
+backup/
+*.backup
+
+# Archives
+*.zip
+*.rar
+*.7z
+*.tar.gz
+
+# Fichiers de configuration locaux
+config.local.*
+settings.local.*
