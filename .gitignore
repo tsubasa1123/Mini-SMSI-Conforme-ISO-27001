@@ -1,0 +1,9 @@
+﻿*.tmp
+~$*
+*.bak
+.DS_Store
+*-confidentiel.*
+venv/
+__pycache__/
+*.pyc
+*.log
