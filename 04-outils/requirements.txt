@@ -1,0 +1,58 @@
+# Mini-SMSI ISO 27001 - Dépendances Python
+# Installation: pip install -r requirements.txt
+
+# === Core ===
+# Manipulation de données
+pandas>=2.0.0
+
+# Lecture/écriture Excel
+openpyxl>=3.1.0
+xlsxwriter>=3.1.0
+
+# === Templates et génération de contenu ===
+# Moteur de templates pour génération HTML
+jinja2>=3.1.2
+
+# === Visualisation et graphiques ===
+# Graphiques statiques
+matplotlib>=3.7.0
+seaborn>=0.12.0
+
+# Graphiques interactifs
+plotly>=5.14.0
+
+# === Export et génération de rapports ===
+# Génération de PDF à partir de HTML (optionnel - peut nécessiter des dépendances système)
+# weasyprint>=59.0
+
+# Alternative PDF plus simple
+# reportlab>=4.0.0
+
+# === Utilitaires ===
+# Variables d'environnement
+python-dotenv>=1.0.0
+
+# Manipulation de dates
+python-dateutil>=2.8.2
+
+# === Intégrations (optionnel) ===
+# API HTTP
+requests>=2.31.0
+
+# Intégration Jira
+# jira>=3.5.0
+
+# Intégration Slack
+# slack-sdk>=3.21.0
+
+# Intégration Microsoft Teams
+# pymsteams>=0.2.2
+
+# === Développement (optionnel) ===
+# Linter et formatage
+# pylint>=2.17.0
+# black>=23.3.0
+
+# Tests
+# pytest>=7.3.0
+# pytest-cov>=4.1.0

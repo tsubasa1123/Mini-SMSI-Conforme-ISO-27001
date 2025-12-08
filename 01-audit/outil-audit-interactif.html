@@ -281,8 +281,8 @@
         
         <div class="actions">
             <button class="btn btn-primary" onclick="generateReport()">Générer le rapport</button>
-            <button class="btn btn-secondary" onclick="exportData()"> Exporter (JSON)</button>
-            <button class="btn btn-secondary" onclick="resetAudit()"> Réinitialiser</button>
+            <button class="btn btn-secondary" onclick="exportData()">Exporter Excel (CSV)</button>
+            <button class="btn btn-secondary" onclick="resetAudit()">Réinitialiser</button>
         </div>
         
         <div class="report" id="reportSection">
@@ -385,15 +385,15 @@
                             </label>
                             <label>
                                 <input type="radio" name="${control.id}" value="partiel" onchange="updateStats()">
-                                ⚠️ Partiellement conforme
+                                 Partiellement conforme
                             </label>
                             <label>
                                 <input type="radio" name="${control.id}" value="non-conforme" onchange="updateStats()">
-                                ❌ Non conforme
+                                 Non conforme
                             </label>
                             <label>
                                 <input type="radio" name="${control.id}" value="na" onchange="updateStats()">
-                                ➖ Non applicable
+                                 Non applicable
                             </label>
                         </div>
                     `;
@@ -429,7 +429,8 @@
                         responses[control.id] = {
                             value: selected.value,
                             title: control.title,
-                            desc: control.desc
+                            desc: control.desc,
+                            domain: domain
                         };
                         
                         if (selected.value === 'conforme') conformeCount++;
@@ -457,7 +458,6 @@
             const reportSection = document.getElementById('reportSection');
             
             let nonConformities = [];
-            let recommendations = [];
             
             Object.keys(responses).forEach(controlId => {
                 const response = responses[controlId];
@@ -465,7 +465,8 @@
                     nonConformities.push({
                         id: controlId,
                         title: response.title,
-                        status: response.value
+                        status: response.value,
+                        domain: response.domain
                     });
                 }
             });
@@ -479,17 +480,18 @@
                 </div>
                 
                 <div class="report-section">
-                    <h3> Non-conformités identifiées</h3>
+                    <h3>Non-conformités identifiées</h3>
             `;
             
             if (nonConformities.length === 0) {
-                html += '<p>Aucune non-conformité identifiée. Félicitations ! 🎉</p>';
+                html += '<p>Aucune non-conformité identifiée. Félicitations ! </p>';
             } else {
                 nonConformities.forEach(nc => {
                     html += `
                         <div class="non-conformity">
                             <strong>${nc.id} - ${nc.title}</strong><br>
-                            Statut : ${nc.status === 'non-conforme' ? '❌ Non conforme' : '⚠️ Partiellement conforme'}
+                            Domaine : ${nc.domain}<br>
+                            Statut : ${nc.status === 'non-conforme' ? 'Non conforme' : 'Partiellement conforme'}
                         </div>
                     `;
                 });
@@ -499,7 +501,7 @@
                 </div>
                 
                 <div class="report-section">
-                    <h3>💡 Recommandations prioritaires</h3>
+                    <h3>Recommandations prioritaires</h3>
                     <div class="recommendation">
                         <strong>Haute priorité :</strong> Traiter les contrôles non conformes liés à la sécurité d'accès et la gestion des incidents
                     </div>
@@ -518,13 +520,28 @@
         }
         
         function exportData() {
-            const dataStr = JSON.stringify(responses, null, 2);
-            const dataBlob = new Blob([dataStr], { type: 'application/json' });
+            // Créer les données au format CSV (compatible Excel)
+            let csv = 'ID Contrôle,Domaine,Titre,Évaluation,Date\n';
+            
+            Object.keys(responses).forEach(controlId => {
+                const response = responses[controlId];
+                const evaluation = response.value === 'conforme' ? 'Conforme' :
+                                  response.value === 'partiel' ? 'Partiellement conforme' :
+                                  response.value === 'non-conforme' ? 'Non conforme' : 'Non applicable';
+                
+                csv += `"${controlId}","${response.domain}","${response.title}","${evaluation}","${new Date().toLocaleDateString('fr-FR')}"\n`;
+            });
+            
+            // Créer le fichier Excel-compatible
+            const BOM = '\uFEFF'; // Pour l'encodage UTF-8 dans Excel
+            const dataBlob = new Blob([BOM + csv], { type: 'text/csv;charset=utf-8;' });
             const url = URL.createObjectURL(dataBlob);
             const link = document.createElement('a');
             link.href = url;
-            link.download = `audit-iso27001-${new Date().toISOString().split('T')[0]}.json`;
+            link.download = `audit-iso27001-${new Date().toISOString().split('T')[0]}.csv`;
             link.click();
+            
+            alert('Export réussi !\n\nLe fichier CSV peut être ouvert directement dans Excel.');
         }
         
         function resetAudit() {

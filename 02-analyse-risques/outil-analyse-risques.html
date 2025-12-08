@@ -1,0 +1,604 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Analyse de Risques ISO 27001</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+        
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 20px;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+            overflow: hidden;
+        }
+        
+        .header {
+            background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+            color: white;
+            padding: 40px;
+            text-align: center;
+        }
+        
+        .header h1 {
+            font-size: 2.5em;
+            margin-bottom: 10px;
+        }
+        
+        .tabs {
+            display: flex;
+            background: #f8f9fa;
+            border-bottom: 2px solid #dee2e6;
+        }
+        
+        .tab {
+            flex: 1;
+            padding: 20px;
+            text-align: center;
+            cursor: pointer;
+            background: #f8f9fa;
+            border: none;
+            font-size: 1em;
+            font-weight: bold;
+            transition: all 0.3s;
+        }
+        
+        .tab:hover {
+            background: #e9ecef;
+        }
+        
+        .tab.active {
+            background: white;
+            color: #f5576c;
+            border-bottom: 3px solid #f5576c;
+        }
+        
+        .tab-content {
+            display: none;
+            padding: 30px;
+        }
+        
+        .tab-content.active {
+            display: block;
+        }
+        
+        .risk-matrix {
+            display: grid;
+            grid-template-columns: 80px repeat(5, 1fr);
+            gap: 10px;
+            margin: 20px 0;
+        }
+        
+        .matrix-label {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            color: #666;
+        }
+        
+        .matrix-cell {
+            aspect-ratio: 1;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 8px;
+            font-weight: bold;
+            color: white;
+            cursor: pointer;
+            transition: transform 0.2s;
+        }
+        
+        .matrix-cell:hover {
+            transform: scale(1.05);
+        }
+        
+        .risk-low { background: #28a745; }
+        .risk-medium { background: #ffc107; color: #333; }
+        .risk-high { background: #fd7e14; }
+        .risk-critical { background: #dc3545; }
+        
+        .form-group {
+            margin-bottom: 20px;
+        }
+        
+        .form-group label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: bold;
+            color: #333;
+        }
+        
+        .form-group input,
+        .form-group select,
+        .form-group textarea {
+            width: 100%;
+            padding: 12px;
+            border: 2px solid #dee2e6;
+            border-radius: 8px;
+            font-size: 1em;
+        }
+        
+        .form-group textarea {
+            min-height: 100px;
+            resize: vertical;
+        }
+        
+        .btn {
+            padding: 15px 30px;
+            border: none;
+            border-radius: 8px;
+            font-size: 1em;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.3s;
+            margin: 5px;
+        }
+        
+        .btn-primary {
+            background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+            color: white;
+        }
+        
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 20px rgba(245, 87, 108, 0.3);
+        }
+        
+        .btn-secondary {
+            background: white;
+            color: #f5576c;
+            border: 2px solid #f5576c;
+        }
+        
+        .risk-card {
+            background: white;
+            border: 2px solid #dee2e6;
+            border-radius: 10px;
+            padding: 20px;
+            margin-bottom: 20px;
+            position: relative;
+        }
+        
+        .risk-level {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            padding: 8px 16px;
+            border-radius: 20px;
+            font-weight: bold;
+            color: white;
+        }
+        
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 20px;
+            margin: 20px 0;
+        }
+        
+        .stat-card {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 20px;
+            border-radius: 10px;
+            text-align: center;
+        }
+        
+        .stat-number {
+            font-size: 2.5em;
+            font-weight: bold;
+            margin-bottom: 5px;
+        }
+        
+        .stat-label {
+            opacity: 0.9;
+        }
+        
+        .treatment-options {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 15px;
+            margin: 20px 0;
+        }
+        
+        .treatment-option {
+            padding: 15px;
+            border: 2px solid #dee2e6;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+        
+        .treatment-option:hover {
+            border-color: #f5576c;
+            background: #fff5f7;
+        }
+        
+        .treatment-option.selected {
+            border-color: #f5576c;
+            background: #f5576c;
+            color: white;
+        }
+        
+        .chart-container {
+            margin: 20px 0;
+            padding: 20px;
+            background: #f8f9fa;
+            border-radius: 10px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>Analyse de Risques</h1>
+            <p>Identification, évaluation et traitement des risques ISO 27001</p>
+        </div>
+        
+        <div class="tabs">
+            <button class="tab active" onclick="showTab('matrix')">Matrice de Risques</button>
+            <button class="tab" onclick="showTab('assessment')">Évaluation</button>
+            <button class="tab" onclick="showTab('treatment')">Traitement</button>
+            <button class="tab" onclick="showTab('dashboard')">Tableau de bord</button>
+        </div>
+        
+        <div id="matrix" class="tab-content active">
+            <h2>Matrice de Risques (Probabilité × Impact)</h2>
+            <p>Cliquez sur une case pour voir les risques associés</p>
+            
+            <div class="risk-matrix">
+                <div></div>
+                <div class="matrix-label">1<br>Négligeable</div>
+                <div class="matrix-label">2<br>Mineur</div>
+                <div class="matrix-label">3<br>Modéré</div>
+                <div class="matrix-label">4<br>Majeur</div>
+                <div class="matrix-label">5<br>Critique</div>
+                
+                <div class="matrix-label">5<br>Très probable</div>
+                <div class="matrix-cell risk-medium" data-score="5">5</div>
+                <div class="matrix-cell risk-high" data-score="10">10</div>
+                <div class="matrix-cell risk-high" data-score="15">15</div>
+                <div class="matrix-cell risk-critical" data-score="20">20</div>
+                <div class="matrix-cell risk-critical" data-score="25">25</div>
+                
+                <div class="matrix-label">4<br>Probable</div>
+                <div class="matrix-cell risk-low" data-score="4">4</div>
+                <div class="matrix-cell risk-medium" data-score="8">8</div>
+                <div class="matrix-cell risk-high" data-score="12">12</div>
+                <div class="matrix-cell risk-high" data-score="16">16</div>
+                <div class="matrix-cell risk-critical" data-score="20">20</div>
+                
+                <div class="matrix-label">3<br>Possible</div>
+                <div class="matrix-cell risk-low" data-score="3">3</div>
+                <div class="matrix-cell risk-medium" data-score="6">6</div>
+                <div class="matrix-cell risk-medium" data-score="9">9</div>
+                <div class="matrix-cell risk-high" data-score="12">12</div>
+                <div class="matrix-cell risk-high" data-score="15">15</div>
+                
+                <div class="matrix-label">2<br>Improbable</div>
+                <div class="matrix-cell risk-low" data-score="2">2</div>
+                <div class="matrix-cell risk-low" data-score="4">4</div>
+                <div class="matrix-cell risk-medium" data-score="6">6</div>
+                <div class="matrix-cell risk-medium" data-score="8">8</div>
+                <div class="matrix-cell risk-high" data-score="10">10</div>
+                
+                <div class="matrix-label">1<br>Très improbable</div>
+                <div class="matrix-cell risk-low" data-score="1">1</div>
+                <div class="matrix-cell risk-low" data-score="2">2</div>
+                <div class="matrix-cell risk-low" data-score="3">3</div>
+                <div class="matrix-cell risk-low" data-score="4">4</div>
+                <div class="matrix-cell risk-medium" data-score="5">5</div>
+            </div>
+            
+            <div class="chart-container">
+                <h3>Légende</h3>
+                <div style="display: grid; grid-template-columns: repeat(4, 1fr); gap: 10px; margin-top: 15px;">
+                    <div style="display: flex; align-items: center; gap: 10px;">
+                        <div style="width: 30px; height: 30px; background: #28a745; border-radius: 5px;"></div>
+                        <span><strong>Faible (1-4)</strong><br>Acceptable</span>
+                    </div>
+                    <div style="display: flex; align-items: center; gap: 10px;">
+                        <div style="width: 30px; height: 30px; background: #ffc107; border-radius: 5px;"></div>
+                        <span><strong>Moyen (5-9)</strong><br>À surveiller</span>
+                    </div>
+                    <div style="display: flex; align-items: center; gap: 10px;">
+                        <div style="width: 30px; height: 30px; background: #fd7e14; border-radius: 5px;"></div>
+                        <span><strong>Élevé (10-15)</strong><br>Action requise</span>
+                    </div>
+                    <div style="display: flex; align-items: center; gap: 10px;">
+                        <div style="width: 30px; height: 30px; background: #dc3545; border-radius: 5px;"></div>
+                        <span><strong>Critique (16-25)</strong><br>Action immédiate</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <div id="assessment" class="tab-content">
+            <h2>Évaluation d'un Nouveau Risque</h2>
+            
+            <form id="riskForm">
+                <div class="form-group">
+                    <label>Actif concerné</label>
+                    <select id="asset" required>
+                        <option value="">-- Sélectionner --</option>
+                        <option value="Serveur de production">Serveur de production</option>
+                        <option value="Base de données clients">Base de données clients</option>
+                        <option value="Application métier">Application métier</option>
+                        <option value="Infrastructure réseau">Infrastructure réseau</option>
+                        <option value="Postes utilisateurs">Postes utilisateurs</option>
+                        <option value="Données sensibles">Données sensibles</option>
+                        <option value="Site web">Site web</option>
+                        <option value="Sauvegardes">Sauvegardes</option>
+                    </select>
+                </div>
+                
+                <div class="form-group">
+                    <label>Menace identifiée</label>
+                    <input type="text" id="threat" placeholder="Ex: Ransomware, Intrusion, Panne électrique..." required>
+                </div>
+                
+                <div class="form-group">
+                    <label>Vulnérabilité exploitée</label>
+                    <textarea id="vulnerability" placeholder="Décrivez la vulnérabilité qui rend cette menace possible..." required></textarea>
+                </div>
+                
+                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 20px;">
+                    <div class="form-group">
+                        <label>Probabilité (1-5)</label>
+                        <select id="probability" required>
+                            <option value="">-- Sélectionner --</option>
+                            <option value="1">1 - Très improbable</option>
+                            <option value="2">2 - Improbable</option>
+                            <option value="3">3 - Possible</option>
+                            <option value="4">4 - Probable</option>
+                            <option value="5">5 - Très probable</option>
+                        </select>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label>💥 Impact (1-5)</label>
+                        <select id="impact" required>
+                            <option value="">-- Sélectionner --</option>
+                            <option value="1">1 - Négligeable</option>
+                            <option value="2">2 - Mineur</option>
+                            <option value="3">3 - Modéré</option>
+                            <option value="4">4 - Majeur</option>
+                            <option value="5">5 - Critique</option>
+                        </select>
+                    </div>
+                </div>
+                
+                <div class="form-group">
+                    <label>Conséquences potentielles</label>
+                    <textarea id="consequences" placeholder="Décrivez les impacts possibles (perte financière, réputationnelle, légale...)" required></textarea>
+                </div>
+                
+                <div style="text-align: center; margin-top: 30px;">
+                    <button type="submit" class="btn btn-primary">➕ Ajouter le Risque</button>
+                    <button type="button" class="btn btn-secondary" onclick="document.getElementById('riskForm').reset()">🔄 Réinitialiser</button>
+                </div>
+            </form>
+        </div>
+        
+        <div id="treatment" class="tab-content">
+            <h2>Plan de Traitement des Risques</h2>
+            
+            <div id="risksList">
+                <p style="text-align: center; color: #666; padding: 40px;">
+                    Aucun risque identifié. Ajoutez-en un dans l'onglet "Évaluation".
+                </p>
+            </div>
+        </div>
+        
+        <div id="dashboard" class="tab-content">
+            <h2>Tableau de Bord</h2>
+            
+            <div class="stats-grid">
+                <div class="stat-card" style="background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);">
+                    <div class="stat-number" id="totalRisks">0</div>
+                    <div class="stat-label">Risques identifiés</div>
+                </div>
+                <div class="stat-card" style="background: linear-gradient(135deg, #dc3545 0%, #c82333 100%);">
+                    <div class="stat-number" id="criticalRisks">0</div>
+                    <div class="stat-label">Risques critiques</div>
+                </div>
+                <div class="stat-card" style="background: linear-gradient(135deg, #fd7e14 0%, #e8590c 100%);">
+                    <div class="stat-number" id="highRisks">0</div>
+                    <div class="stat-label">Risques élevés</div>
+                </div>
+                <div class="stat-card" style="background: linear-gradient(135deg, #28a745 0%, #218838 100%);">
+                    <div class="stat-number" id="treatedRisks">0</div>
+                    <div class="stat-label">Risques traités</div>
+                </div>
+            </div>
+            
+            <div class="chart-container">
+                <h3>Distribution des Risques par Niveau</h3>
+                <div style="margin-top: 20px;">
+                    <p>Utilisez l'export Excel pour créer des graphiques dans Excel.</p>
+                </div>
+            </div>
+            
+            <div style="text-align: center; margin-top: 30px;">
+                <button class="btn btn-primary" onclick="exportRisks()">Exporter Excel (CSV)</button>
+                <button class="btn btn-secondary" onclick="generateReport()">Générer le Rapport</button>
+            </div>
+        </div>
+    </div>
+    
+    <script>
+        let risks = [];
+        
+        function showTab(tabName) {
+            document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+            document.querySelectorAll('.tab-content').forEach(c => c.classList.remove('active'));
+            
+            event.target.classList.add('active');
+            document.getElementById(tabName).classList.add('active');
+            
+            if (tabName === 'dashboard') updateDashboard();
+            if (tabName === 'treatment') updateTreatmentList();
+        }
+        
+        document.getElementById('riskForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            const risk = {
+                id: Date.now(),
+                asset: document.getElementById('asset').value,
+                threat: document.getElementById('threat').value,
+                vulnerability: document.getElementById('vulnerability').value,
+                probability: parseInt(document.getElementById('probability').value),
+                impact: parseInt(document.getElementById('impact').value),
+                consequences: document.getElementById('consequences').value,
+                score: 0,
+                level: '',
+                treatment: null,
+                status: 'identified'
+            };
+            
+            risk.score = risk.probability * risk.impact;
+            
+            if (risk.score >= 16) risk.level = 'Critique';
+            else if (risk.score >= 10) risk.level = 'Élevé';
+            else if (risk.score >= 5) risk.level = 'Moyen';
+            else risk.level = 'Faible';
+            
+            risks.push(risk);
+            
+            alert('Risque ajouté avec succès!\n\nScore: ' + risk.score + ' (' + risk.level + ')');
+            
+            this.reset();
+            updateDashboard();
+        });
+        
+        function updateTreatmentList() {
+            const container = document.getElementById('risksList');
+            
+            if (risks.length === 0) {
+                container.innerHTML = '<p style="text-align: center; color: #666; padding: 40px;">Aucun risque identifié.</p>';
+                return;
+            }
+            
+            const sortedRisks = [...risks].sort((a, b) => b.score - a.score);
+            
+            container.innerHTML = sortedRisks.map(risk => `
+                <div class="risk-card">
+                    <div class="risk-level ${risk.level === 'Critique' ? 'risk-critical' : risk.level === 'Élevé' ? 'risk-high' : risk.level === 'Moyen' ? 'risk-medium' : 'risk-low'}">
+                        ${risk.level} (${risk.score})
+                    </div>
+                    
+                    <h3>${risk.threat}</h3>
+                    <p><strong>Actif:</strong> ${risk.asset}</p>
+                    <p><strong>Vulnérabilité:</strong> ${risk.vulnerability}</p>
+                    <p><strong>Conséquences:</strong> ${risk.consequences}</p>
+                    
+                    <h4 style="margin-top: 20px;">Options de Traitement</h4>
+                    <div class="treatment-options">
+                        <div class="treatment-option ${risk.treatment === 'reduce' ? 'selected' : ''}" 
+                             onclick="setTreatment(${risk.id}, 'reduce')">
+                            <strong>Réduire</strong><br>
+                            <small>Mettre en place des contrôles</small>
+                        </div>
+                        <div class="treatment-option ${risk.treatment === 'transfer' ? 'selected' : ''}"
+                             onclick="setTreatment(${risk.id}, 'transfer')">
+                            <strong>Transférer</strong><br>
+                            <small>Assurance, externalisation</small>
+                        </div>
+                        <div class="treatment-option ${risk.treatment === 'avoid' ? 'selected' : ''}"
+                             onclick="setTreatment(${risk.id}, 'avoid')">
+                            <strong>Éviter</strong><br>
+                            <small>Arrêter l'activité</small>
+                        </div>
+                        <div class="treatment-option ${risk.treatment === 'accept' ? 'selected' : ''}"
+                             onclick="setTreatment(${risk.id}, 'accept')">
+                            <strong>Accepter</strong><br>
+                            <small>Assumer le risque</small>
+                        </div>
+                    </div>
+                </div>
+            `).join('');
+        }
+        
+        function setTreatment(riskId, treatment) {
+            const risk = risks.find(r => r.id === riskId);
+            if (risk) {
+                risk.treatment = treatment;
+                risk.status = 'treated';
+                updateTreatmentList();
+                updateDashboard();
+            }
+        }
+        
+        function updateDashboard() {
+            document.getElementById('totalRisks').textContent = risks.length;
+            document.getElementById('criticalRisks').textContent = risks.filter(r => r.level === 'Critique').length;
+            document.getElementById('highRisks').textContent = risks.filter(r => r.level === 'Élevé').length;
+            document.getElementById('treatedRisks').textContent = risks.filter(r => r.treatment).length;
+        }
+        
+        function exportRisks() {
+            if (risks.length === 0) {
+                alert('Aucun risque à exporter.\n\nAjoutez d\'abord des risques dans l\'onglet "Évaluation".');
+                return;
+            }
+            
+            // En-têtes CSV
+            let csv = 'ID,Date,Actif,Menace,Vulnérabilité,Probabilité,Impact,Score,Niveau,Traitement,Statut,Conséquences\n';
+            
+            // Ajouter chaque risque
+            risks.forEach(risk => {
+                const treatment = risk.treatment === 'reduce' ? 'Réduire' :
+                                 risk.treatment === 'transfer' ? 'Transférer' :
+                                 risk.treatment === 'avoid' ? 'Éviter' :
+                                 risk.treatment === 'accept' ? 'Accepter' : 'Non défini';
+                
+                const status = risk.status === 'identified' ? 'Identifié' : 'Traité';
+                
+                csv += `"${risk.id}",`;
+                csv += `"${new Date(risk.id).toLocaleDateString('fr-FR')}",`;
+                csv += `"${risk.asset}",`;
+                csv += `"${risk.threat}",`;
+                csv += `"${risk.vulnerability.replace(/"/g, '""')}",`;
+                csv += `${risk.probability},`;
+                csv += `${risk.impact},`;
+                csv += `${risk.score},`;
+                csv += `"${risk.level}",`;
+                csv += `"${treatment}",`;
+                csv += `"${status}",`;
+                csv += `"${risk.consequences.replace(/"/g, '""')}"\n`;
+            });
+            
+            // Créer le fichier Excel-compatible
+            const BOM = '\uFEFF';
+            const blob = new Blob([BOM + csv], { type: 'text/csv;charset=utf-8;' });
+            const url = URL.createObjectURL(blob);
+            const link = document.createElement('a');
+            link.href = url;
+            link.download = `registre-risques-${new Date().toISOString().split('T')[0]}.csv`;
+            link.click();
+            
+            alert('Export réussi !\n\nLe fichier CSV peut être ouvert directement dans Excel.');
+        }
+        
+        function generateReport() {
+            alert('Génération du rapport...\n\nUtilisez l\'export Excel puis créez vos propres rapports dans Excel avec tableaux croisés dynamiques et graphiques.');
+        }
+    </script>
+</body>
+</html>
