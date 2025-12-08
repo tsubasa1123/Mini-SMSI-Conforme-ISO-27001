@@ -1,0 +1,542 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Audit ISO 27001 - Mini SMSI</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 20px;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+            overflow: hidden;
+        }
+        
+        .header {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 40px;
+            text-align: center;
+        }
+        
+        .header h1 {
+            font-size: 2.5em;
+            margin-bottom: 10px;
+        }
+        
+        .header p {
+            font-size: 1.1em;
+            opacity: 0.9;
+        }
+        
+        .stats {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 20px;
+            padding: 30px;
+            background: #f8f9fa;
+        }
+        
+        .stat-card {
+            background: white;
+            padding: 20px;
+            border-radius: 10px;
+            text-align: center;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        
+        .stat-number {
+            font-size: 2.5em;
+            font-weight: bold;
+            color: #667eea;
+            margin-bottom: 5px;
+        }
+        
+        .stat-label {
+            color: #666;
+            font-size: 0.9em;
+        }
+        
+        .progress-bar {
+            width: 100%;
+            height: 30px;
+            background: #e9ecef;
+            border-radius: 15px;
+            overflow: hidden;
+            margin: 20px 0;
+        }
+        
+        .progress-fill {
+            height: 100%;
+            background: linear-gradient(90deg, #667eea 0%, #764ba2 100%);
+            transition: width 0.3s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-weight: bold;
+        }
+        
+        .content {
+            padding: 30px;
+        }
+        
+        .domain {
+            margin-bottom: 30px;
+            border: 2px solid #e9ecef;
+            border-radius: 10px;
+            overflow: hidden;
+        }
+        
+        .domain-header {
+            background: #667eea;
+            color: white;
+            padding: 15px 20px;
+            cursor: pointer;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-weight: bold;
+        }
+        
+        .domain-header:hover {
+            background: #5568d3;
+        }
+        
+        .domain-content {
+            padding: 20px;
+            display: none;
+        }
+        
+        .domain-content.active {
+            display: block;
+        }
+        
+        .control {
+            background: #f8f9fa;
+            padding: 15px;
+            margin-bottom: 15px;
+            border-radius: 8px;
+            border-left: 4px solid #667eea;
+        }
+        
+        .control-title {
+            font-weight: bold;
+            margin-bottom: 8px;
+            color: #333;
+        }
+        
+        .control-desc {
+            color: #666;
+            font-size: 0.9em;
+            margin-bottom: 10px;
+        }
+        
+        .control-options {
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
+        }
+        
+        .control-options label {
+            display: flex;
+            align-items: center;
+            gap: 5px;
+            cursor: pointer;
+        }
+        
+        .control-options input[type="radio"] {
+            cursor: pointer;
+        }
+        
+        .actions {
+            padding: 30px;
+            background: #f8f9fa;
+            display: flex;
+            gap: 15px;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+        
+        .btn {
+            padding: 15px 30px;
+            border: none;
+            border-radius: 8px;
+            font-size: 1em;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        
+        .btn-primary {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+        }
+        
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 20px rgba(102, 126, 234, 0.3);
+        }
+        
+        .btn-secondary {
+            background: white;
+            color: #667eea;
+            border: 2px solid #667eea;
+        }
+        
+        .btn-secondary:hover {
+            background: #667eea;
+            color: white;
+        }
+        
+        .report {
+            display: none;
+            padding: 30px;
+            background: #f8f9fa;
+        }
+        
+        .report.active {
+            display: block;
+        }
+        
+        .report-section {
+            background: white;
+            padding: 20px;
+            margin-bottom: 20px;
+            border-radius: 10px;
+        }
+        
+        .report-section h3 {
+            color: #667eea;
+            margin-bottom: 15px;
+        }
+        
+        .non-conformity {
+            background: #fff3cd;
+            border-left: 4px solid #ffc107;
+            padding: 15px;
+            margin-bottom: 10px;
+            border-radius: 5px;
+        }
+        
+        .recommendation {
+            background: #d1ecf1;
+            border-left: 4px solid #17a2b8;
+            padding: 15px;
+            margin-bottom: 10px;
+            border-radius: 5px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>Audit ISO 27001</h1>
+            <p>Évaluation de conformité - Annexe A</p>
+        </div>
+        
+        <div class="stats">
+            <div class="stat-card">
+                <div class="stat-number" id="totalControls">0</div>
+                <div class="stat-label">Contrôles évalués</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-number" id="conformeCount">0</div>
+                <div class="stat-label">Conformes</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-number" id="nonConformeCount">0</div>
+                <div class="stat-label">Non conformes</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-number" id="conformityRate">0%</div>
+                <div class="stat-label">Taux de conformité</div>
+            </div>
+        </div>
+        
+        <div style="padding: 20px;">
+            <div class="progress-bar">
+                <div class="progress-fill" id="progressBar" style="width: 0%">0%</div>
+            </div>
+        </div>
+        
+        <div class="content" id="auditContent">
+            <!-- Les domaines seront générés ici -->
+        </div>
+        
+        <div class="actions">
+            <button class="btn btn-primary" onclick="generateReport()">Générer le rapport</button>
+            <button class="btn btn-secondary" onclick="exportData()"> Exporter (JSON)</button>
+            <button class="btn btn-secondary" onclick="resetAudit()"> Réinitialiser</button>
+        </div>
+        
+        <div class="report" id="reportSection">
+            <h2 style="text-align: center; color: #667eea; margin-bottom: 30px;">Rapport d'Audit ISO 27001</h2>
+            <div id="reportContent"></div>
+        </div>
+    </div>
+    
+    <script>
+        const auditData = {
+            "A.5 Politiques de sécurité": [
+                { id: "A.5.1", title: "Politiques de sécurité de l'information", desc: "Ensemble de politiques pour la sécurité de l'information" }
+            ],
+            "A.6 Organisation de la sécurité": [
+                { id: "A.6.1", title: "Rôles et responsabilités", desc: "Définition et attribution des responsabilités" },
+                { id: "A.6.2", title: "Séparation des tâches", desc: "Séparation des fonctions conflictuelles" }
+            ],
+            "A.7 Sécurité des ressources humaines": [
+                { id: "A.7.1", title: "Avant l'embauche", desc: "Vérifications préalables à l'embauche" },
+                { id: "A.7.2", title: "Pendant l'emploi", desc: "Formation et sensibilisation" },
+                { id: "A.7.3", title: "Fin d'emploi", desc: "Procédures de départ" }
+            ],
+            "A.8 Gestion des actifs": [
+                { id: "A.8.1", title: "Inventaire des actifs", desc: "Identification et recensement des actifs" },
+                { id: "A.8.2", title: "Classification", desc: "Classification des informations" },
+                { id: "A.8.3", title: "Manipulation des supports", desc: "Gestion des supports physiques et numériques" }
+            ],
+            "A.9 Contrôle d'accès": [
+                { id: "A.9.1", title: "Politique de contrôle d'accès", desc: "Règles de contrôle d'accès" },
+                { id: "A.9.2", title: "Gestion des accès utilisateurs", desc: "Provisionnement et déprovisionnement" },
+                { id: "A.9.3", title: "Gestion des mots de passe", desc: "Politique et gestion des mots de passe" }
+            ],
+            "A.10 Cryptographie": [
+                { id: "A.10.1", title: "Contrôles cryptographiques", desc: "Utilisation de la cryptographie" }
+            ],
+            "A.11 Sécurité physique": [
+                { id: "A.11.1", title: "Zones sécurisées", desc: "Protection des zones sensibles" },
+                { id: "A.11.2", title: "Sécurité du matériel", desc: "Protection des équipements" }
+            ],
+            "A.12 Sécurité des opérations": [
+                { id: "A.12.1", title: "Procédures opérationnelles", desc: "Documentation des procédures" },
+                { id: "A.12.2", title: "Protection contre les malwares", desc: "Antivirus et protection" },
+                { id: "A.12.3", title: "Sauvegarde", desc: "Politique de sauvegarde" },
+                { id: "A.12.4", title: "Journalisation", desc: "Logs et surveillance" }
+            ],
+            "A.13 Sécurité des communications": [
+                { id: "A.13.1", title: "Gestion de la sécurité réseau", desc: "Sécurisation des réseaux" },
+                { id: "A.13.2", title: "Transfert d'information", desc: "Échanges sécurisés" }
+            ],
+            "A.14 Acquisition, développement et maintenance": [
+                { id: "A.14.1", title: "Sécurité des développements", desc: "Cycle de vie sécurisé" },
+                { id: "A.14.2", title: "Tests de sécurité", desc: "Tests et validation" }
+            ],
+            "A.15 Relations avec les fournisseurs": [
+                { id: "A.15.1", title: "Sécurité dans les contrats", desc: "Clauses de sécurité" }
+            ],
+            "A.16 Gestion des incidents": [
+                { id: "A.16.1", title: "Signalement des incidents", desc: "Procédure de signalement" },
+                { id: "A.16.2", title: "Réponse aux incidents", desc: "Gestion et résolution" }
+            ],
+            "A.17 Continuité d'activité": [
+                { id: "A.17.1", title: "Plan de continuité", desc: "PCA/PRA" }
+            ],
+            "A.18 Conformité": [
+                { id: "A.18.1", title: "Conformité légale", desc: "Respect des lois et réglementations" },
+                { id: "A.18.2", title: "Audits de sécurité", desc: "Revues et audits" }
+            ]
+        };
+        
+        let responses = {};
+        
+        function initAudit() {
+            const container = document.getElementById('auditContent');
+            
+            Object.keys(auditData).forEach(domain => {
+                const domainDiv = document.createElement('div');
+                domainDiv.className = 'domain';
+                
+                const header = document.createElement('div');
+                header.className = 'domain-header';
+                header.innerHTML = `
+                    <span>${domain}</span>
+                    <span>▼</span>
+                `;
+                header.onclick = () => toggleDomain(domainDiv);
+                
+                const content = document.createElement('div');
+                content.className = 'domain-content';
+                
+                auditData[domain].forEach(control => {
+                    const controlDiv = document.createElement('div');
+                    controlDiv.className = 'control';
+                    controlDiv.innerHTML = `
+                        <div class="control-title">${control.id} - ${control.title}</div>
+                        <div class="control-desc">${control.desc}</div>
+                        <div class="control-options">
+                            <label>
+                                <input type="radio" name="${control.id}" value="conforme" onchange="updateStats()">
+                                 Conforme
+                            </label>
+                            <label>
+                                <input type="radio" name="${control.id}" value="partiel" onchange="updateStats()">
+                                ⚠️ Partiellement conforme
+                            </label>
+                            <label>
+                                <input type="radio" name="${control.id}" value="non-conforme" onchange="updateStats()">
+                                ❌ Non conforme
+                            </label>
+                            <label>
+                                <input type="radio" name="${control.id}" value="na" onchange="updateStats()">
+                                ➖ Non applicable
+                            </label>
+                        </div>
+                    `;
+                    content.appendChild(controlDiv);
+                });
+                
+                domainDiv.appendChild(header);
+                domainDiv.appendChild(content);
+                container.appendChild(domainDiv);
+            });
+            
+            updateStats();
+        }
+        
+        function toggleDomain(domainDiv) {
+            const content = domainDiv.querySelector('.domain-content');
+            content.classList.toggle('active');
+        }
+        
+        function updateStats() {
+            const allInputs = document.querySelectorAll('input[type="radio"]');
+            const checkedInputs = document.querySelectorAll('input[type="radio"]:checked');
+            
+            let totalControls = 0;
+            let conformeCount = 0;
+            let nonConformeCount = 0;
+            
+            Object.keys(auditData).forEach(domain => {
+                auditData[domain].forEach(control => {
+                    totalControls++;
+                    const selected = document.querySelector(`input[name="${control.id}"]:checked`);
+                    if (selected) {
+                        responses[control.id] = {
+                            value: selected.value,
+                            title: control.title,
+                            desc: control.desc
+                        };
+                        
+                        if (selected.value === 'conforme') conformeCount++;
+                        else if (selected.value === 'non-conforme' || selected.value === 'partiel') nonConformeCount++;
+                    }
+                });
+            });
+            
+            const evaluated = checkedInputs.length;
+            const conformityRate = evaluated > 0 ? Math.round((conformeCount / evaluated) * 100) : 0;
+            const progress = Math.round((evaluated / totalControls) * 100);
+            
+            document.getElementById('totalControls').textContent = evaluated;
+            document.getElementById('conformeCount').textContent = conformeCount;
+            document.getElementById('nonConformeCount').textContent = nonConformeCount;
+            document.getElementById('conformityRate').textContent = conformityRate + '%';
+            
+            const progressBar = document.getElementById('progressBar');
+            progressBar.style.width = progress + '%';
+            progressBar.textContent = progress + '%';
+        }
+        
+        function generateReport() {
+            const reportContent = document.getElementById('reportContent');
+            const reportSection = document.getElementById('reportSection');
+            
+            let nonConformities = [];
+            let recommendations = [];
+            
+            Object.keys(responses).forEach(controlId => {
+                const response = responses[controlId];
+                if (response.value === 'non-conforme' || response.value === 'partiel') {
+                    nonConformities.push({
+                        id: controlId,
+                        title: response.title,
+                        status: response.value
+                    });
+                }
+            });
+            
+            let html = `
+                <div class="report-section">
+                    <h3>Résumé exécutif</h3>
+                    <p><strong>Date de l'audit :</strong> ${new Date().toLocaleDateString('fr-FR')}</p>
+                    <p><strong>Taux de conformité global :</strong> ${document.getElementById('conformityRate').textContent}</p>
+                    <p><strong>Nombre de non-conformités :</strong> ${nonConformities.length}</p>
+                </div>
+                
+                <div class="report-section">
+                    <h3> Non-conformités identifiées</h3>
+            `;
+            
+            if (nonConformities.length === 0) {
+                html += '<p>Aucune non-conformité identifiée. Félicitations ! 🎉</p>';
+            } else {
+                nonConformities.forEach(nc => {
+                    html += `
+                        <div class="non-conformity">
+                            <strong>${nc.id} - ${nc.title}</strong><br>
+                            Statut : ${nc.status === 'non-conforme' ? '❌ Non conforme' : '⚠️ Partiellement conforme'}
+                        </div>
+                    `;
+                });
+            }
+            
+            html += `
+                </div>
+                
+                <div class="report-section">
+                    <h3>💡 Recommandations prioritaires</h3>
+                    <div class="recommendation">
+                        <strong>Haute priorité :</strong> Traiter les contrôles non conformes liés à la sécurité d'accès et la gestion des incidents
+                    </div>
+                    <div class="recommendation">
+                        <strong>Moyenne priorité :</strong> Améliorer la documentation des procédures et politiques
+                    </div>
+                    <div class="recommendation">
+                        <strong>Formation :</strong> Sensibiliser le personnel aux exigences ISO 27001
+                    </div>
+                </div>
+            `;
+            
+            reportContent.innerHTML = html;
+            reportSection.classList.add('active');
+            reportSection.scrollIntoView({ behavior: 'smooth' });
+        }
+        
+        function exportData() {
+            const dataStr = JSON.stringify(responses, null, 2);
+            const dataBlob = new Blob([dataStr], { type: 'application/json' });
+            const url = URL.createObjectURL(dataBlob);
+            const link = document.createElement('a');
+            link.href = url;
+            link.download = `audit-iso27001-${new Date().toISOString().split('T')[0]}.json`;
+            link.click();
+        }
+        
+        function resetAudit() {
+            if (confirm('Êtes-vous sûr de vouloir réinitialiser l\'audit ?')) {
+                responses = {};
+                document.querySelectorAll('input[type="radio"]').forEach(input => input.checked = false);
+                document.getElementById('reportSection').classList.remove('active');
+                updateStats();
+            }
+        }
+        
+        initAudit();
+    </script>
+</body>
+</html>
