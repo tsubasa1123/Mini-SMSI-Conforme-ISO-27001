@@ -1,0 +1,16 @@
+ID,Nom de l'actif,Type,Catégorie,Propriétaire,Localisation,Classification,Confidentialité,Intégrité,Disponibilité,Valeur (1-5),État,Date acquisition,Date fin de vie,Commentaires
+A001,Serveur de production principal,Matériel,Infrastructure,DSI,Datacenter Paris,Confidentiel,5,5,5,5,En service,2023-01-15,2028-01-15,Serveur physique Dell R740
+A002,Base de données clients,Logiciel,Application,Responsable Commercial,Cloud AWS,Confidentiel,5,5,5,5,En service,2022-06-01,,"Base PostgreSQL contenant données clients"
+A003,Application ERP,Logiciel,Application,Direction,Serveur PROD,Restreint,4,5,4,5,En service,2021-03-01,,"SAP ERP - Critique pour l'activité"
+A004,Postes de travail utilisateurs,Matériel,Endpoint,Service IT,Bureaux,Interne,3,3,3,3,En service,2023-01-01,2026-01-01,"50 postes Windows 10/11"
+A005,Sauvegarde données critiques,Données,Données,DSI,Datacenter + Cloud,Confidentiel,5,5,5,5,En service,2023-01-01,,"Backup quotidien - RPO 24h"
+A006,Pare-feu périmétrique,Matériel,Sécurité,RSSI,Datacenter,Restreint,4,5,5,4,En service,2022-09-01,2027-09-01,Fortinet FortiGate 200F
+A007,Documentation technique,Données,Documentation,DSI,SharePoint,Restreint,3,4,3,4,En service,2020-01-01,,"Procédures et configurations"
+A008,Code source applications,Données,Propriété intellectuelle,CTO,GitLab,Confidentiel,5,5,4,5,En service,2019-01-01,,"Repository Git privé"
+A009,Contrats clients,Données,Documents légaux,Direction Juridique,GED,Confidentiel,5,5,3,5,En service,2018-01-01,,"Contrats scannés et signés"
+A010,Système de messagerie,Logiciel,Communication,DSI,Cloud Office 365,Restreint,4,4,4,4,En service,2021-01-01,,"Microsoft Exchange Online"
+A011,VPN d'accès distant,Logiciel,Sécurité,RSSI,Datacenter,Restreint,4,4,5,4,En service,2022-01-01,,"OpenVPN - Accès télétravail"
+A012,Données RH employés,Données,Données personnelles,DRH,Serveur RH,Confidentiel,5,5,4,5,En service,2020-01-01,,"Base de données SIRH"
+A013,Site web institutionnel,Logiciel,Application,Marketing,Cloud OVH,Public,1,3,4,3,En service,2023-03-01,,"WordPress + plugins"
+A014,Salle serveurs,Physique,Infrastructure,DSI,Bâtiment A - RDC,Restreint,4,4,5,4,En service,2018-01-01,,"Salle climatisée - contrôle accès"
+A015,Réseau Wi-Fi entreprise,Infrastructure,Réseau,DSI,Tous sites,Restreint,3,4,4,3,En service,2022-01-01,,"Wi-Fi WPA3 - Segmenté par VLAN"
