@@ -140,22 +140,22 @@ Occurrence identifiée d'un changement d'état d'un système ou service.
 ### 4.1 Sources de détection
 
 **Automatiques:**
-- 🤖 Alertes SIEM / SOC
-- 🤖 Antivirus / EDR
-- 🤖 IDS/IPS (Intrusion Detection/Prevention)
-- 🤖 Monitoring système (nagios, zabbix, etc.)
-- 🤖 DLP (Data Loss Prevention)
-- 🤖 Analyse de logs
+-  Alertes SIEM / SOC
+-  Antivirus / EDR
+-  IDS/IPS (Intrusion Detection/Prevention)
+-  Monitoring système (nagios, zabbix, etc.)
+-  DLP (Data Loss Prevention)
+-  Analyse de logs
 
 **Manuelles:**
-- 👤 Signalement utilisateur
-- 👤 Audit de sécurité
-- 👤 Alerte d'un tiers (client, partenaire, CERT)
-- 👤 Revue des logs
+-  Signalement utilisateur
+-  Audit de sécurité
+-  Alerte d'un tiers (client, partenaire, CERT)
+-  Revue des logs
 
 ### 4.2 Indicateurs d'incidents (IoC - Indicators of Compromise)
 
-⚠️ **Signes techniques à surveiller:**
+ **Signes techniques à surveiller:**
 - Ralentissement anormal et inexpliqué des systèmes
 - Redémarrages intempestifs
 - Fichiers modifiés, supprimés ou chiffrés sans raison
@@ -167,7 +167,7 @@ Occurrence identifiée d'un changement d'état d'un système ou service.
 - Processus inconnus en cours d'exécution
 - Modifications de configuration non planifiées
 
-⚠️ **Signes comportementaux:**
+ **Signes comportementaux:**
 - Emails suspects ou non sollicités
 - Demandes inhabituelles d'informations sensibles
 - Comportement anormal d'un utilisateur
@@ -191,27 +191,27 @@ Occurrence identifiée d'un changement d'état d'un système ou service.
 ### 5.2 Informations à fournir lors du signalement
 
 **MINIMUM REQUIS:**
-- ✅ **Votre identité** : Nom, prénom, service, coordonnées
-- ✅ **Date et heure** de découverte de l'incident
-- ✅ **Description claire** de ce qui s'est passé
-- ✅ **Système(s) affecté(s)** : Poste, serveur, application
-- ✅ **Impact constaté** : Ce qui ne fonctionne plus, données affectées
+-  **Votre identité** : Nom, prénom, service, coordonnées
+-  **Date et heure** de découverte de l'incident
+-  **Description claire** de ce qui s'est passé
+-  **Système(s) affecté(s)** : Poste, serveur, application
+-  **Impact constaté** : Ce qui ne fonctionne plus, données affectées
 
 **SI POSSIBLE (mais important):**
-- 📸 Captures d'écran des messages d'erreur ou comportements anormaux
-- 📄 Messages d'erreur exacts (copier-coller)
-- 📁 Fichiers suspects (NE PAS OUVRIR - les transmettre zippés avec mot de passe)
-- 📊 Logs ou extraits de journaux
-- 🕐 Chronologie précise des événements
+-  Captures d'écran des messages d'erreur ou comportements anormaux
+-  Messages d'erreur exacts (copier-coller)
+-  Fichiers suspects (NE PAS OUVRIR - les transmettre zippés avec mot de passe)
+-  Logs ou extraits de journaux
+-  Chronologie précise des événements
 
 ### 5.3 Consignes immédiates à l'utilisateur
 
-**✅ À FAIRE IMMÉDIATEMENT:**
-- ✅ **Signaler sans délai** à la hotline ou RSSI
-- ✅ **Noter précisément** l'heure et tous les détails
-- ✅ **Prendre des captures d'écran** si possible
-- ✅ **Isoler** la machine du réseau si vous savez le faire (débrancher câble réseau ou désactiver Wi-Fi)
-- ✅ **Préserver les preuves** : ne rien modifier
+** À FAIRE IMMÉDIATEMENT:**
+-  **Signaler sans délai** à la hotline ou RSSI
+-  **Noter précisément** l'heure et tous les détails
+-  **Prendre des captures d'écran** si possible
+-  **Isoler** la machine du réseau si vous savez le faire (débrancher câble réseau ou désactiver Wi-Fi)
+-  **Préserver les preuves** : ne rien modifier
 
 **❌ NE SURTOUT PAS:**
 - ❌ **Éteindre** le système (perte de preuves en mémoire RAM)
@@ -299,11 +299,11 @@ Le RSSI ou membre de l'ERI évalue :
 ### 7.1 Investigation technique
 
 **Objectifs:**
-- 🔍 Identifier la **cause racine** de l'incident
-- 🔍 Déterminer le **point d'entrée** (vecteur d'attaque)
-- 🔍 Évaluer l'**étendue du compromis** (propagation)
-- 🔍 Identifier les **données affectées**
-- 🔍 Comprendre la **chronologie complète**
+-  Identifier la **cause racine** de l'incident
+-  Déterminer le **point d'entrée** (vecteur d'attaque)
+-  Évaluer l'**étendue du compromis** (propagation)
+-  Identifier les **données affectées**
+-  Comprendre la **chronologie complète**
 
 **Moyens techniques:**
 - Analyse centralisée de logs (SIEM)
@@ -315,7 +315,7 @@ Le RSSI ou membre de l'ERI évalue :
 
 ### 7.2 Collecte et préservation des preuves
 
-**⚠️ Ordre de volatilité (du + au - volatil - à collecter dans cet ordre):**
+** Ordre de volatilité (du + au - volatil - à collecter dans cet ordre):**
 1. **Registres CPU, cache** (quelques nanosecondes)
 2. **Mémoire RAM** (perdue à l'extinction)
 3. **État réseau** (connexions actives, tables de routage)
@@ -325,14 +325,14 @@ Le RSSI ou membre de l'ERI évalue :
 7. **Configuration système**
 8. **Documentation papier**
 
-**🔒 Chaîne de traçabilité (Chain of Custody):**
-- ✅ Horodatage précis de chaque action
-- ✅ Hash (MD5, SHA256) des fichiers collectés
-- ✅ Conservation en lieu sûr et isolé
-- ✅ Documentation complète : qui a fait quoi, quand, comment
-- ✅ Signature et scellement si preuve judiciaire
+** Chaîne de traçabilité (Chain of Custody):**
+-  Horodatage précis de chaque action
+-  Hash (MD5, SHA256) des fichiers collectés
+-  Conservation en lieu sûr et isolé
+-  Documentation complète : qui a fait quoi, quand, comment
+-  Signature et scellement si preuve judiciaire
 
-**📋 Formulaire de collecte de preuves:**
+** Formulaire de collecte de preuves:**
 ```
 Date/Heure collecte : [DATE HEURE]
 Collecteur : [NOM]
@@ -360,7 +360,7 @@ Observations : [NOTES]
 - 🚫 **Révocation de certificats** ou jetons d'authentification
 - 🚫 **Changement de mots de passe** (comptes à risque)
 
-**⚠️ ATTENTION:** 
+** ATTENTION:** 
 - Ne pas alerter l'attaquant trop tôt (surveillance discrète possible avant confinement)
 - Documenter toutes les actions prises
 - Considérer l'impact métier du confinement
@@ -372,37 +372,37 @@ Observations : [NOTES]
 **Actions selon type d'incident:**
 
 **Malware:**
-- 🧹 Suppression complète du malware et ses variantes
-- 🧹 Suppression des clés de registre, tâches planifiées, services créés
-- 🧹 Vérification d'absence de persistance (backdoor, rootkit)
+-  Suppression complète du malware et ses variantes
+-  Suppression des clés de registre, tâches planifiées, services créés
+-  Vérification d'absence de persistance (backdoor, rootkit)
 
 **Intrusion:**
-- 🧹 Fermeture de toutes les backdoors identifiées
-- 🧹 Correction des vulnérabilités exploitées (patch, configuration)
-- 🧹 Révocation de tous les accès compromis
+-  Fermeture de toutes les backdoors identifiées
+-  Correction des vulnérabilités exploitées (patch, configuration)
+-  Révocation de tous les accès compromis
 
 **Données:**
-- 🧹 Suppression de données exfiltrées (si possible - demande à l'attaquant ou hébergeur)
-- 🧹 Chiffrement ou destruction sécurisée si données restent exposées
+-  Suppression de données exfiltrées (si possible - demande à l'attaquant ou hébergeur)
+-  Chiffrement ou destruction sécurisée si données restent exposées
 
 **Commun:**
-- 🧹 Changement de tous les mots de passe potentiellement compromis
-- 🧹 Révocation de toutes les sessions actives
-- 🧹 Mise à jour/durcissement des configurations
+-  Changement de tous les mots de passe potentiellement compromis
+-  Révocation de toutes les sessions actives
+-  Mise à jour/durcissement des configurations
 
 ### 8.3 Récupération
 
 **Objectif:** Rétablir le service en toute sécurité
 
 **Actions:**
-- ✅ **Restauration** à partir de sauvegardes saines (vérifiées non compromises)
-- ✅ **Réinstallation complète** des systèmes si nécessaire (clean install)
-- ✅ **Application de tous les correctifs** et mises à jour
-- ✅ **Durcissement de la configuration** (hardening)
-- ✅ **Tests de bon fonctionnement** complets
-- ✅ **Surveillance renforcée** minimum 72h après remise en production
+-  **Restauration** à partir de sauvegardes saines (vérifiées non compromises)
+-  **Réinstallation complète** des systèmes si nécessaire (clean install)
+-  **Application de tous les correctifs** et mises à jour
+-  **Durcissement de la configuration** (hardening)
+-  **Tests de bon fonctionnement** complets
+-  **Surveillance renforcée** minimum 72h après remise en production
 
-**✅ Validation avant remise en production (checklist):**
+** Validation avant remise en production (checklist):**
 - [ ] Systèmes scannés (antivirus, vulnérabilités) : Aucune détection
 - [ ] Tous les correctifs critiques appliqués
 - [ ] Configurations renforcées (hardening checklist complétée)
@@ -419,10 +419,10 @@ Observations : [NOTES]
 ### 9.1 Communication interne
 
 **Pendant l'incident:**
-- 📢 **Points réguliers** avec l'ERI (toutes les 2h pour incidents critiques)
-- 📢 **Information direction** immédiate pour criticité haute/critique
-- 📢 **Communication ciblée** aux utilisateurs impactés (sans détails techniques sensibles)
-- 📢 **Updates** réguliers aux parties prenantes
+-  **Points réguliers** avec l'ERI (toutes les 2h pour incidents critiques)
+-  **Information direction** immédiate pour criticité haute/critique
+-  **Communication ciblée** aux utilisateurs impactés (sans détails techniques sensibles)
+-  **Updates** réguliers aux parties prenantes
 
 **Template de communication interne:**
 ```
@@ -432,22 +432,22 @@ Chers collaborateurs,
 
 Un incident de sécurité de niveau [CRITICITÉ] a été détecté le [DATE] à [HEURE].
 
-📋 IMPACT:
+ IMPACT:
 [Description de l'impact utilisateur]
 
-🔧 SERVICES AFFECTÉS:
+ SERVICES AFFECTÉS:
 [Liste des services impactés]
 
-⚙️ ACTIONS EN COURS:
+ ACTIONS EN COURS:
 [Description des actions de résolution]
 
-⏱️ ESTIMATION RÉSOLUTION:
+ ESTIMATION RÉSOLUTION:
 [Délai estimé]
 
-📱 CONSIGNES:
+ CONSIGNES:
 [Instructions spécifiques aux utilisateurs]
 
-🔄 PROCHAINE COMMUNICATION:
+ PROCHAINE COMMUNICATION:
 [Date/Heure du prochain point]
 
 Pour toute question urgente: [CONTACT]
@@ -493,7 +493,7 @@ L'équipe de réponse aux incidents
 - Uniquement via le service communication
 - Avec validation préalable direction + juridique
 
-**⚠️ IMPORTANT:** 
+** IMPORTANT:** 
 Toute communication externe doit être **validée par la Direction ET le service juridique** avant diffusion.
 
 ---
@@ -719,3 +719,4 @@ Toute communication externe doit être **validée par la Direction ET le service
 4. **Vérification des sauvegardes** : intégrité, disponibilité, non-chiffrement
 5. **Évaluation de l'exfiltration** : données volées avant chiffrement ?
 6. **Conservation des preuves** : ne pas éteindre, images disque
+7
